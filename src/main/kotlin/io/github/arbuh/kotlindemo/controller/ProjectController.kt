@@ -2,6 +2,8 @@ package io.github.arbuh.kotlindemo.controller
 
 import io.github.arbuh.kotlindemo.controller.dto.request.ProjectRequest
 import io.github.arbuh.kotlindemo.controller.dto.response.ProjectResponse
+import io.github.arbuh.kotlindemo.controller.mapper.toResponse
+import io.github.arbuh.kotlindemo.model.Project
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -13,6 +15,7 @@ import java.util.UUID
 @RestController
 @RequestMapping("/v1")
 class ProjectController {
+
     @PostMapping("/project")
     fun createProject(@RequestBody project: ProjectRequest) {
         println("Project ${project.name} created")
@@ -20,6 +23,7 @@ class ProjectController {
 
     @GetMapping("/project/{id}")
     fun getProject(@PathVariable id: UUID): ProjectResponse {
-        return ProjectResponse(id = UUID.randomUUID(), name = "Test Project")
+        val project = Project(name = "Test Project")
+        return project.toResponse()
     }
 }
