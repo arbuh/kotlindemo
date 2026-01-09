@@ -1,8 +1,8 @@
-package io.github.arbuh.kotlindemo.controller
+package io.github.arbuh.kotlindemo.io
 
-import io.github.arbuh.kotlindemo.controller.dto.request.ProjectRequest
-import io.github.arbuh.kotlindemo.controller.dto.response.ProjectResponse
-import io.github.arbuh.kotlindemo.controller.mapper.toResponse
+import io.github.arbuh.kotlindemo.io.dto.request.CreateProjectRequest
+import io.github.arbuh.kotlindemo.io.dto.response.ProjectResponse
+import io.github.arbuh.kotlindemo.io.mapper.toResponse
 import io.github.arbuh.kotlindemo.model.Project
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,7 +17,7 @@ import java.util.UUID
 class ProjectController {
 
     @PostMapping("/project")
-    fun createProject(@RequestBody project: ProjectRequest) {
+    fun createProject(@RequestBody project: CreateProjectRequest) {
         println("Project ${project.name} created")
     }
 
