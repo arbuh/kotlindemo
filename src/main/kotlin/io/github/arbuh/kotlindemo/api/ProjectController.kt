@@ -23,8 +23,9 @@ class ProjectController {
     }
 
     @GetMapping("/project/{id}")
-    fun getProject(@PathVariable id: UUID): ProjectResponse {
-        return ProjectResponse(id = id.toString(), name = "Test Project")
+    fun getProject(@PathVariable id: UUID): ResponseEntity<ProjectResponse> {
+        val response = ProjectResponse(id = id.toString(), name = "Test Project")
+        return ResponseEntity.ok(response)
     }
 //    @GetMapping("/project/{id}")
 //    fun getProject(@PathVariable id: UUID): ResponseEntity<ProjectResponse> {
