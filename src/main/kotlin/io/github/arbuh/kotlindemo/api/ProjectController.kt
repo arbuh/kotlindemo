@@ -4,6 +4,7 @@ import io.github.arbuh.kotlindemo.api.dto.request.CreateProjectRequest
 import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
 import io.github.arbuh.kotlindemo.api.mapper.toResponse
 import io.github.arbuh.kotlindemo.model.Project
+import io.github.arbuh.kotlindemo.service.ProjectService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -14,7 +15,7 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/v1")
-class ProjectController {
+class ProjectController(private val projectService: ProjectService) {
 
     @PostMapping("/project")
     fun createProject(@RequestBody project: CreateProjectRequest) {

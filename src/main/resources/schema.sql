@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS project (
+    id      VARCHAR(36)  DEFAULT RANDOM_UUID() PRIMARY KEY,
+    name    VARCHAR      NOT NULL
+);
