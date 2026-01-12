@@ -9,8 +9,11 @@ build/
 gradle-app.setting
 .gradletasknamecache
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA
 .idea
 *.iws
 *.iml
 *.ipr
+
+# Kotlin
+.kotlin
