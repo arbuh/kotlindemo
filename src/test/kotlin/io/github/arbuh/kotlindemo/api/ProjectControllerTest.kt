@@ -3,15 +3,15 @@ package io.github.arbuh.kotlindemo.api
 import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.client.RestTestClient
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@AutoConfigureRestTestClient
 class ProjectControllerTest {
-
-    @Autowired
-    private lateinit var testClient: RestTestClient
 
 //    @Test
 //    fun `should return id when project is saved`() {
@@ -19,8 +19,8 @@ class ProjectControllerTest {
 //    }
 
     @Test
-    fun `should return requested project`() {
-        val response = testClient
+    fun `should return requested project`(@Autowired webClient: RestTestClient) {
+        val response = webClient
             .get()
             .uri("/v1/project/ed3baaa1-8d14-4f21-9f27-48a822d59473")
             .accept(MediaType.APPLICATION_JSON)
