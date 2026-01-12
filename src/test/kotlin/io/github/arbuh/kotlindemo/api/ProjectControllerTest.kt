@@ -17,7 +17,7 @@ import java.util.UUID
 
 @WebMvcTest
 @AutoConfigureRestTestClient
-class ProjectControllerTest {
+class ProjectControllerTest(@Autowired private val webClient: RestTestClient) {
 
     //    @Test
 //    fun `should return id when project is saved`() {
@@ -27,7 +27,7 @@ class ProjectControllerTest {
     private lateinit var projectService: ProjectService
 
     @Test
-    fun `should return requested project`(@Autowired webClient: RestTestClient) {
+    fun `should return requested project`() {
         val id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473")
         given(projectService.findById(id)).willReturn(
             Project(
@@ -36,7 +36,7 @@ class ProjectControllerTest {
             )
         )
 
-        val response = webClient
+        webClient
             .get()
             .uri("/v1/project/ed3baaa1-8d14-4f21-9f27-48a822d59473")
             .accept(MediaType.APPLICATION_JSON)
@@ -47,8 +47,14 @@ class ProjectControllerTest {
             .isEqualTo(ProjectResponse("ed3baaa1-8d14-4f21-9f27-48a822d59473", "Test Project"))
     }
 
-//    @Test
-//    fun `should return 404 on unknown project`() {
-//
-//    }
+    @Test
+    fun `should return 404 on unknown project`() {
+        webClient
+            .get()
+            .uri("/v1/project/ed3baaa1-8d14-4f21-9f27-48a822d59473")
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isNotFound()
+    }
 }
