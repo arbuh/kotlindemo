@@ -19,12 +19,13 @@ import java.util.UUID
 @AutoConfigureRestTestClient
 class ProjectControllerTest(@Autowired private val webClient: RestTestClient) {
 
+    @MockitoBean
+    private lateinit var projectService: ProjectService
+
     //    @Test
 //    fun `should return id when project is saved`() {
 //
 //    }
-    @MockitoBean
-    private lateinit var projectService: ProjectService
 
     @Test
     fun `should return requested project`() {
