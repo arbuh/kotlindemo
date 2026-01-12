@@ -3,6 +3,7 @@ package io.github.arbuh.kotlindemo.api
 import io.github.arbuh.kotlindemo.api.dto.request.CreateProjectRequest
 import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
 import io.github.arbuh.kotlindemo.api.mapper.toResponse
+import io.github.arbuh.kotlindemo.service.ProjectService
 //import io.github.arbuh.kotlindemo.service.ProjectService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +16,7 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/v1")
-class ProjectController {
+class ProjectController(private val projectService: ProjectService) {
 
     @PostMapping("/project")
     fun createProject(@RequestBody project: CreateProjectRequest) {
@@ -24,8 +25,9 @@ class ProjectController {
 
     @GetMapping("/project/{id}")
     fun getProject(@PathVariable id: UUID): ResponseEntity<ProjectResponse> {
-        val response = ProjectResponse(id = id.toString(), name = "Test Project")
-        return ResponseEntity.ok(response)
+        val project = projectService.findById(id)
+            ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(project.toResponse())
     }
 //    @GetMapping("/project/{id}")
 //    fun getProject(@PathVariable id: UUID): ResponseEntity<ProjectResponse> {

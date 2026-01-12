@@ -1,26 +1,41 @@
 package io.github.arbuh.kotlindemo.api
 
 import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
+import io.github.arbuh.kotlindemo.model.Project
+import io.github.arbuh.kotlindemo.service.ProjectService
 import org.junit.jupiter.api.Test
+import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
 import org.springframework.http.MediaType
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.client.RestTestClient
+import java.util.UUID
 
 @WebMvcTest
 @AutoConfigureRestTestClient
 class ProjectControllerTest {
 
-//    @Test
+    //    @Test
 //    fun `should return id when project is saved`() {
 //
 //    }
+    @MockitoBean
+    private lateinit var projectService: ProjectService
 
     @Test
     fun `should return requested project`(@Autowired webClient: RestTestClient) {
+        val id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473")
+        given(projectService.findById(id)).willReturn(
+            Project(
+                id = id,
+                name = "Test Project"
+            )
+        )
+
         val response = webClient
             .get()
             .uri("/v1/project/ed3baaa1-8d14-4f21-9f27-48a822d59473")
