@@ -10,5 +10,5 @@ data class Project(
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID? = null,
     @Column(nullable = false)
-    val name: String
+    val name: String = ""
 )
