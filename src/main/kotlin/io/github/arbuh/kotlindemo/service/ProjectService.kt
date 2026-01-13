@@ -8,5 +8,6 @@ import java.util.UUID
 
 @Service
 class ProjectService(private val repository: ProjectRepository) {
+    fun save(project: Project): Project = repository.save(project)
     fun findById(id: UUID): Project? = repository.findByIdOrNull(id)
 }

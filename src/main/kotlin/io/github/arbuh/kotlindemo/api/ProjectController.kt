@@ -29,11 +29,4 @@ class ProjectController(private val projectService: ProjectService) {
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(project.toResponse())
     }
-//    @GetMapping("/project/{id}")
-//    fun getProject(@PathVariable id: UUID): ResponseEntity<ProjectResponse> {
-//        val project = projectService.findById(id)
-//            ?: return ResponseEntity.notFound().build()
-//
-//        return ResponseEntity.ok(project.toResponse())
-//    }
 }
