@@ -5,7 +5,7 @@ import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
 import io.github.arbuh.kotlindemo.model.Project
 
 fun Project.toResponse() = ProjectResponse(
-    id = id.toString(),
+    id = id?.toString(),
     name = name
 )
 
