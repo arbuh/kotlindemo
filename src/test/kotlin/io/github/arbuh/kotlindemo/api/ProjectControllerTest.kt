@@ -20,10 +20,28 @@ class ProjectControllerTest(@Autowired private val webClient: RestTestClient) {
     @MockitoBean
     private lateinit var projectService: ProjectService
 
-    //    @Test
-//    fun `should return id when project is saved`() {
-//
-//    }
+    @Test
+    fun `should return project with id on save`() {
+        val project = Project(name = "Test Project")
+        given(projectService.save(project)).willReturn(
+            Project(
+                id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473"),
+                name = "Test Project"
+            )
+        )
+
+        webClient
+            .post()
+            .uri("/v1/project")
+            .accept(MediaType.APPLICATION_JSON)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(project)
+            .exchange()
+            .expectStatus()
+            .isCreated()
+            .expectBody(ProjectResponse::class.java)
+            .isEqualTo(ProjectResponse("ed3baaa1-8d14-4f21-9f27-48a822d59473", "Test Project"))
+    }
 
     @Test
     fun `should return requested project`() {

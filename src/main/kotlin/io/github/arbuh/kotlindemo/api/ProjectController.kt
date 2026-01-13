@@ -2,8 +2,10 @@ package io.github.arbuh.kotlindemo.api
 
 import io.github.arbuh.kotlindemo.api.dto.request.CreateProjectRequest
 import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
+import io.github.arbuh.kotlindemo.api.mapper.toEntity
 import io.github.arbuh.kotlindemo.api.mapper.toResponse
 import io.github.arbuh.kotlindemo.service.ProjectService
+import org.springframework.http.HttpStatus
 //import io.github.arbuh.kotlindemo.service.ProjectService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,8 +21,10 @@ import java.util.UUID
 class ProjectController(private val projectService: ProjectService) {
 
     @PostMapping("/project")
-    fun createProject(@RequestBody project: CreateProjectRequest) {
-        println("Project ${project.name} created")
+    fun createProject(@RequestBody request: CreateProjectRequest): ResponseEntity<ProjectResponse> {
+        val project = request.toEntity()
+        val result = projectService.save(project)
+        return ResponseEntity.status(HttpStatus.CREATED).body(result.toResponse())
     }
 
     @GetMapping("/project/{id}")
