@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test
 class ProjectMapperTest {
     @Test
     fun `toResponse should map correctly`() {
-        val project = Project(id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473"), name = "Test name")
-        val expected = ProjectResponse(id = "ed3baaa1-8d14-4f21-9f27-48a822d59473", name = "Test name")
+        val project = Project(id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473"), name = "Test Project")
+        val expected = ProjectResponse(id = "ed3baaa1-8d14-4f21-9f27-48a822d59473", name = "Test Project")
 
         val result = project.toResponse()
         assertThat(result).usingRecursiveComparison().isEqualTo(expected)
@@ -19,8 +19,8 @@ class ProjectMapperTest {
 
     @Test
     fun `toEntity should map correctly`() {
-        val request = CreateProjectRequest(name = "Test name")
-        val expected = Project(name = "Test name")
+        val request = CreateProjectRequest(name = "Test Project")
+        val expected = Project(name = "Test Project")
 
         val result = request.toEntity()
         assertThat(result).usingRecursiveComparison().isEqualTo(expected)

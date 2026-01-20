@@ -1,5 +1,6 @@
 package io.github.arbuh.kotlindemo.api
 
+import io.github.arbuh.kotlindemo.api.dto.request.CreateProjectRequest
 import io.github.arbuh.kotlindemo.api.dto.response.ProjectResponse
 import io.github.arbuh.kotlindemo.model.Project
 import io.github.arbuh.kotlindemo.service.ProjectService
@@ -13,7 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.client.RestTestClient
 import java.util.UUID
 
-@WebMvcTest
+@WebMvcTest(ProjectController::class)
 @AutoConfigureRestTestClient
 class ProjectControllerTest(@Autowired private val webClient: RestTestClient) {
 
@@ -21,13 +22,11 @@ class ProjectControllerTest(@Autowired private val webClient: RestTestClient) {
     private lateinit var projectService: ProjectService
 
     @Test
-    fun `should return project with id on save`() {
+    fun `should return new project on save`() {
+        val request = CreateProjectRequest(name = "Test Project")
         val project = Project(name = "Test Project")
         given(projectService.save(project)).willReturn(
-            Project(
-                id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473"),
-                name = "Test Project"
-            )
+            project.copy(id = UUID.fromString("ed3baaa1-8d14-4f21-9f27-48a822d59473"))
         )
 
         webClient
@@ -35,7 +34,7 @@ class ProjectControllerTest(@Autowired private val webClient: RestTestClient) {
             .uri("/v1/project")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(project)
+            .body(request)
             .exchange()
             .expectStatus()
             .isCreated()
